@@ -27,8 +27,9 @@ const auth = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     return res.status(500).json({
+      error,
       status_code: 500,
-      message: "Something went wrong...",
+      message: "Something went wrong.",
       success: false,
     });
   }
