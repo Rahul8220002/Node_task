@@ -25,13 +25,20 @@ const auth = async (req, res, next) => {
 
     next();
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({
-      error,
-      status_code: 500,
-      message: "Something went wrong.",
-      success: false,
-    });
+    if (error.name === "JsonWebTokenError") {
+      return res.status(401).json({
+        status_code: 401,
+        message: "Invalid token signature",
+        success: false,
+      });
+    } else {
+      return res.status(500).json({
+        error,
+        status_code: 500,
+        message: "Something went wrong.",
+        success: false,
+      });
+    }
   }
 };
 
