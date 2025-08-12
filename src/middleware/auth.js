@@ -1,4 +1,5 @@
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
+import { User } from "../models/userSchema.js";
 const auth = async (req, res, next) => {
   try {
     const token = req.headers?.authorization || req.cookies?.authorization;
@@ -10,11 +11,21 @@ const auth = async (req, res, next) => {
       });
     }
     const decoded = jwt.verify(token, process.env.JWT_SERECT_KEY);
-    req.user = decoded;
-    
+    const users = await User.findOne({ token: decoded });
+
+    if (!users) {
+      return res.status(404).json({
+        status_code: 404,
+        message: "invalid Token",
+        success: false,
+      });
+    }
+
+    req.user = users;
+
     next();
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(500).json({
       status_code: 500,
       message: "Something went wrong...",
