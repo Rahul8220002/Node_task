@@ -10,8 +10,7 @@ const auth = async (req, res, next) => {
         success: false,
       });
     }
-    const decoded = jwt.verify(token, process.env.JWT_SERECT_KEY);
-    const users = await User.findOne({ token: decoded });
+    const users = await User.findOne({ token: token });
 
     if (!users) {
       return res.status(404).json({
@@ -21,7 +20,9 @@ const auth = async (req, res, next) => {
       });
     }
 
-    req.user = users;
+    const decoded = jwt.verify(token, process.env.JWT_SERECT_KEY);
+
+    req.user = decoded;
 
     next();
   } catch (error) {
