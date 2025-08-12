@@ -13,7 +13,7 @@ const app = express()
 app.use(cors({
     origin:"*",
     credentials:true,
-    methods:["POST", "GET", "PUT", "DELETE", "PUTCH"]
+    methods:["POST", "GET", "PUT", "DELETE", "PATCH"]
     
 }))
 
