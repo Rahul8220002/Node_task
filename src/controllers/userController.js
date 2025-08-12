@@ -5,7 +5,7 @@ const createUser = async (req, res) => {
   try {
     const { name, email, password, address, latitude, longitude, status } =
       req.body;
-    if (!name || !email || !password || !address || !longitude || longitude) {
+    if (!name || !email || !password || !address || !longitude || !longitude) {
       return res
         .status(400)
         .json({ message: "All required fields must be filled." });
